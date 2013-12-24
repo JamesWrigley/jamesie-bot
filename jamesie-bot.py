@@ -1,5 +1,8 @@
 import pyrc
+import pywapi
 import pyrc.utils.hooks as hooks
+
+things_dict = {}
 
 class jamesie(pyrc.Bot):
     @hooks.privmsg("^.tell\s+(?P<recipient>.+)\s+(?P<msg>.+)$")
@@ -10,6 +13,19 @@ class jamesie(pyrc.Bot):
         user_messages[kwargs["recipient"]] = kwargs["msg"]
         self.message(target, "{0}: {1} says \"{2}\"".format(kwargs["recipient"], sender, user_messages[kwargs["recipient"]]))
 
+    @hooks.privmsg("^.libkt\s+(?P<thing>.+)\s+is\s+(?P<value>.+)$")
+    def add_to_library(self, target, sender, **kwargs):        
+        things_dict[kwargs["thing"]] = kwargs["value"]
+        self.message(target, "{0}: Added to dictionary".format(sender))
+        for i,v in things_dict.items(): print(i + " is " + v)
+
+    @hooks.privmsg("^.wutis\s+(?P<thing>.+)$")
+    def wutis(self, target, sender, **kwargs):
+        if kwargs["thing"] in things_dict:
+            self.message(target, kwargs["thing"] + " is " + things_dict[kwargs["thing"]])
+        else:
+            self.message(target, "{0}: Item not found".format(sender))
+
     @hooks.privmsg("^.repeat\s+(?P<msg>.+)$")
     def repeat(self, target, sender, **kwargs):
         if target.startswith("#"):
@@ -19,7 +35,7 @@ class jamesie(pyrc.Bot):
 
     @hooks.privmsg("(^.fail|^.lamb|^.help|^.success|^.laugh)")
     def runCommand(self, target, sender, *args):
-        commands = [".tell", ".fail", ".repeat", ".lamb", ".help"]
+        commands = [".tell", ".fail", ".repeat", ".lamb", ".help", ".laugh", ".success" ]
 
         if target.startswith("#"):
             if args[0] == ".fail":
@@ -36,6 +52,7 @@ class jamesie(pyrc.Bot):
                 self.message(target, "Unrecognised command")
 
 
+
 if __name__ == '__main__':
-    bot = jamesie("irc.freenode.net", channels = ["#jamesie", "#coursera-androidapps"])
+    bot = jamesie("irc.freenode.net", channels = ["#jamesie"])
     bot.connect()
