@@ -67,21 +67,25 @@ class jamesie(pyrc.Bot):
             self.message(sender, kwargs["msg"])
 
 
-    @hooks.privmsg("(^.fail|^.lamb|^.help|^.success|^.laugh)")
+    @hooks.privmsg("(^.fail|^.lamb|^.help|^.success|^.laugh|^.bugz|^.tickle)")
     def runCommand(self, target, sender, *args):
-        commands = [".tell", ".fail", ".repeat", ".lamb", ".help", ".laugh", ".success", ".for", ".wutis", ".aloc", ".loc", ".weather"]
+        commands = [".tell", ".fail", ".repeat", ".lamb", ".help", ".laugh", ".success", ".for", ".wutis", ".aloc", ".loc", ".weather", ".bugz", ".tickle"]
 
         if target.startswith("#"):
             if args[0] == ".fail":
                 self.message(target, "Abject, miserable, despondent, failure.")
+            elif args[0] == ".bugz":
+                self.message(target, "Bugs. Bugs everywhere. In your code, between your deps, and under your bed O_O")
             elif args[0] == ".lamb":
                 self.message(target, "LAAAYUUMBB")
             elif args[0] == ".laugh":
-                self.message(target, "MOOHAHAHAH!! http://goo.gl/nDgijf")
+                self.message(target, "BAAAAHAHAHAHAH HaHAHAA HA HA HHHHA AH *snort* HA HHA HAHAHA HA HAH HAH HAH HAHAH HAH HAH oh man HAH AH HAAAAAHAAAHHH *cough* *cough* *cough* hah hehhh hehhhhh geez.. *cough*")
             elif args[0] == ".help":
                 self.message(target, "{0}: I am a weird chap. Current commands are {1}.".format(sender, ", ".join(commands)))
             elif args[0] == ".success":
                 self.message(target, "ZOMG HALLELUJAH IM A GENIUS")
+            elif args[0] == ".tickle":
+                self.message(target, "/me tickles 0, who giggles like a schoolgirl")
             else:
                 self.message(target, "Unrecognised command")
 
