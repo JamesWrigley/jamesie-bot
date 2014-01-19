@@ -5,7 +5,7 @@ import pyrc.utils.hooks as hooks
 things_dict = {}
 weather_locations_dict = {}
 
-class jamesie(pyrc.Bot):
+class Prattle(pyrc.Bot):
     @hooks.privmsg("^.tell\s+(?P<recipient>.+)\s+(?P<msg>.+)$")
     def tell(self, target, sender, **kwargs):
         user_messages = {}
@@ -66,6 +66,11 @@ class jamesie(pyrc.Bot):
         else:
             self.message(sender, kwargs["msg"])
 
+    @hooks.privmsg("^.five\s+(?P<person>.+)$")
+    def highfive(self, target, sender, **kwargs):
+        if target.startswith("#"):
+            self.message(target, "/me high-fives {0}".format(kwargs["person"]))
+
 
     @hooks.privmsg("(^.fail|^.lamb|^.help|^.success|^.laugh|^.bugz|^.tickle)")
     def runCommand(self, target, sender, *args):
@@ -93,5 +98,5 @@ class jamesie(pyrc.Bot):
 
 
 if __name__ == '__main__':
-    bot = jamesie("irc.freenode.net", channels = ["#jamesie"])
+    bot = Prattle("irc.freenode.net", channels = ["#jamesie", "#coursera-androidapps", "#coursera-imaging"])
     bot.connect()
