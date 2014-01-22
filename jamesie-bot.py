@@ -73,7 +73,15 @@ class Plaznar(pyrc.Bot):
                 self.message(target, "\u0001ACTION high-fives himself\u0001")
             else:
                 self.message(target, "\u0001ACTION high-fives {0}\u0001".format(kwargs["person"]))
-            
+
+    @hooks.privmsg("^.tickle\s+(?P<person>.+)$")
+    def highfive(self, target, sender, **kwargs):
+        if target.startswith("#"):
+            if kwargs["person"] == "Plaznar":
+                self.message(target, "\u0001ACTION is too mature to tickle himself\u0001")
+            else:
+                self.message(target, "\u0001ACTION tickles {0}, who giggles like a schoolgirl\u0001".format(kwargs["person"]))
+
 
     @hooks.privmsg("(^.fail|^.lamb|^.help|^.success|^.laugh|^.bugz|^.tickle|^.rejoice)")
     def runCommand(self, target, sender, *args):
@@ -92,8 +100,6 @@ class Plaznar(pyrc.Bot):
                 self.message(target, "{0}: I am a weird chap. Current commands are {1}.".format(sender, ", ".join(commands)))
             elif args[0] == ".success":
                 self.message(target, "ZOMG HALLELUJAH IM A GENIUS")
-            elif args[0] == ".tickle":
-                self.message(target, "\u0001ACTION tickles 0, who giggles like a schoolgirl\u0001")
             elif args[0] == ".rejoice":
                 self.message(target, "Hell yeah!")
             else:
