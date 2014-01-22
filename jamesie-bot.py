@@ -5,7 +5,7 @@ import pyrc.utils.hooks as hooks
 things_dict = {}
 weather_locations_dict = {}
 
-class Prattle(pyrc.Bot):
+class Plaznar(pyrc.Bot):
     @hooks.privmsg("^.tell\s+(?P<recipient>.+)\s+(?P<msg>.+)$")
     def tell(self, target, sender, **kwargs):
         user_messages = {}
@@ -69,10 +69,13 @@ class Prattle(pyrc.Bot):
     @hooks.privmsg("^.five\s+(?P<person>.+)$")
     def highfive(self, target, sender, **kwargs):
         if target.startswith("#"):
-            self.message(target, "/me high-fives {0}".format(kwargs["person"]))
+            if kwargs["person"] == "Plaznar":
+                self.message(target, "\u0001ACTION high-fives himself\u0001")
+            else:
+                self.message(target, "\u0001ACTION high-fives {0}\u0001".format(kwargs["person"]))
+            
 
-
-    @hooks.privmsg("(^.fail|^.lamb|^.help|^.success|^.laugh|^.bugz|^.tickle)")
+    @hooks.privmsg("(^.fail|^.lamb|^.help|^.success|^.laugh|^.bugz|^.tickle|^.rejoice)")
     def runCommand(self, target, sender, *args):
         commands = [".tell", ".fail", ".repeat", ".lamb", ".help", ".laugh", ".success", ".for", ".wutis", ".aloc", ".loc", ".weather", ".bugz", ".tickle"]
 
@@ -90,7 +93,9 @@ class Prattle(pyrc.Bot):
             elif args[0] == ".success":
                 self.message(target, "ZOMG HALLELUJAH IM A GENIUS")
             elif args[0] == ".tickle":
-                self.message(target, "/me tickles 0, who giggles like a schoolgirl")
+                self.message(target, "\u0001ACTION tickles 0, who giggles like a schoolgirl\u0001")
+            elif args[0] == ".rejoice":
+                self.message(target, "Hell yeah!")
             else:
                 self.message(target, "Unrecognised command")
 
@@ -98,5 +103,5 @@ class Prattle(pyrc.Bot):
 
 
 if __name__ == '__main__':
-    bot = Prattle("irc.freenode.net", channels = ["#jamesie", "#coursera-androidapps", "#coursera-imaging"])
+    bot = Plaznar("irc.freenode.net", channels = ["#jamesie", "#coursera-androidapps", "#coursera-imaging"])
     bot.connect()
