@@ -6,7 +6,7 @@ things_dict = {}
 weather_locations_dict = {}
 
 class Plaznar(pyrc.Bot):
-    @hooks.privmsg("^.tell\s+(?P<recipient>.+)\s+(?P<msg>.+)$")
+    @hooks.privmsg("^.tell+\s(?P<recipient>.+)\s+(?P<msg>.+)$")
     def tell(self, target, sender, **kwargs):
         user_messages = {}
 
@@ -75,17 +75,26 @@ class Plaznar(pyrc.Bot):
                 self.message(target, "\u0001ACTION high-fives {0}\u0001".format(kwargs["person"]))
 
     @hooks.privmsg("^.tickle\s+(?P<person>.+)$")
-    def highfive(self, target, sender, **kwargs):
+    def tickle(self, target, sender, **kwargs):
         if target.startswith("#"):
             if kwargs["person"] == "Plaznar":
                 self.message(target, "\u0001ACTION is too mature to tickle himself\u0001")
             else:
                 self.message(target, "\u0001ACTION tickles {0}, who giggles like a schoolgirl\u0001".format(kwargs["person"]))
 
+    @hooks.privmsg("^.applaud\s+(?P<person>.+)$")
+    def applaud(self, target, sender, **kwargs):
+        if target.startswith("#"):
+            if kwargs["person"] == "Plaznar":
+                self.message(target, "\u0001ACTION gives himself a medal\u0001")
+            else:
+                self.message(target, "\u0001ACTION slow claps for {0}\u0001".format(kwargs["person"]))
 
-    @hooks.privmsg("(^.fail|^.lamb|^.help|^.success|^.laugh|^.bugz|^.tickle|^.rejoice)")
+
+
+    @hooks.privmsg("(^.fail|^.lamb|^.help|^.success|^.laugh|^.bugz|^.rejoice|^.ram)")
     def runCommand(self, target, sender, *args):
-        commands = [".tell", ".fail", ".repeat", ".lamb", ".help", ".laugh", ".success", ".for", ".wutis", ".aloc", ".loc", ".weather", ".bugz", ".tickle"]
+        commands = [".tell", ".fail", ".repeat", ".lamb", ".help", ".laugh", ".success", ".for", ".wutis", ".aloc", ".loc", ".weather", ".bugz", ".tickle", ".applaud"]
 
         if target.startswith("#"):
             if args[0] == ".fail":
@@ -93,13 +102,15 @@ class Plaznar(pyrc.Bot):
             elif args[0] == ".bugz":
                 self.message(target, "Bugs. Bugs everywhere. In your code, between your deps, and under your bed O_O")
             elif args[0] == ".lamb":
-                self.message(target, "LAAAYUUMBB")
+                self.message(target, "\u0002LAAAYUUMBB\u0002")
             elif args[0] == ".laugh":
                 self.message(target, "BAAAAHAHAHAHAH HaHAHAA HA HA HHHHA AH *snort* HA HHA HAHAHA HA HAH HAH HAH HAHAH HAH HAH oh man HAH AH HAAAAAHAAAHHH *cough* *cough* *cough* hah hehhh hehhhhh geez.. *cough*")
             elif args[0] == ".help":
                 self.message(target, "{0}: I am a weird chap. Current commands are {1}.".format(sender, ", ".join(commands)))
             elif args[0] == ".success":
                 self.message(target, "ZOMG HALLELUJAH IM A GENIUS")
+            elif args[0] == ".ram":
+                self.message(target, "\u0002RAHHHHUUUUUUUM!!\u0002")
             elif args[0] == ".rejoice":
                 self.message(target, "Hell yeah!")
             else:
