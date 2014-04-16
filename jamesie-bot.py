@@ -15,7 +15,7 @@ class Plaznar(pyrc.Bot):
         self.message(target, "{0}: {1} says \"{2}\"".format(kwargs["recipient"], sender, user_messages[kwargs["recipient"]]))
 
 
-    @hooks.privmsg("^.for\s+(?P<thing>.+)\s+is\s+(?P<value>.+)$")
+    @hooks.privmsg("^.let\s+(?P<thing>.+)\s+be\s+(?P<value>.+)$")
     def add_to_library(self, target, sender, **kwargs):        
         things_dict[kwargs["thing"]] = kwargs["value"]
         self.message(target, "{0}: Added to dictionary".format(sender))
@@ -74,6 +74,15 @@ class Plaznar(pyrc.Bot):
             else:
                 self.message(target, "\u0001ACTION high-fives {0}\u0001".format(kwargs["person"]))
 
+    @hooks.privmsg("^.slap\s+(?P<person>.+)$")
+    def slap(self, target, sender, **kwargs):
+        if target.startswith("#"):
+            if kwargs["person"] == "Plaznar":
+                self.message(target, "\u0001ACTION pats himself on the back\u0001")
+            else:
+                self.message(target, "\u0001ACTION slaps {0} upside the haid\u0001".format(kwargs["person"]))
+
+
     @hooks.privmsg("^.tickle\s+(?P<person>.+)$")
     def tickle(self, target, sender, **kwargs):
         if target.startswith("#"):
@@ -91,10 +100,15 @@ class Plaznar(pyrc.Bot):
                 self.message(target, "\u0001ACTION slow claps for {0}\u0001".format(kwargs["person"]))
 
 
+    @hooks.privmsg("^.moar+\s(?P<thing>.+)\s+(?P<person>.+)$")
+    def moar(self, target, sender, **kwargs):
+        if target.startswith("#"):
+            self.message(target, "\u0001ACTION inundates {0} with {1}\u0001".format(kwargs["person"], kwargs["thing"]))
+
 
     @hooks.privmsg("(^.fail|^.lamb|^.help|^.success|^.laugh|^.bugz|^.rejoice|^.ram)")
     def runCommand(self, target, sender, *args):
-        commands = [".tell", ".fail", ".repeat", ".lamb", ".help", ".laugh", ".success", ".for", ".wutis", ".aloc", ".loc", ".weather", ".bugz", ".tickle", ".applaud"]
+        commands = [".tell", ".fail", ".repeat", ".lamb", ".help", ".laugh", ".success", ".let", ".wutis", ".aloc", ".loc", ".weather", ".bugz", ".tickle", ".applaud", ".slap", ".ram"]
 
         if target.startswith("#"):
             if args[0] == ".fail":
@@ -118,7 +132,6 @@ class Plaznar(pyrc.Bot):
 
 
 
-
 if __name__ == '__main__':
-    bot = Plaznar("irc.freenode.net", channels = ["#jamesie", "#coursera-androidapps", "#coursera-imaging"])
+    bot = Plaznar("irc.freenode.net", channels = ["#jamesie", "#coursera-androidapps"])
     bot.connect()
